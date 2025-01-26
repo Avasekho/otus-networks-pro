@@ -1,4 +1,4 @@
-<h1> Лабораторная работа 1.  </h1> 
+<h1> Лабораторная работа 1. </h1> 
 
 <h2> Топология </h2>
 <img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab01/topology.png>

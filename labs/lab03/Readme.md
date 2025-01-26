@@ -67,4 +67,3 @@
 <p> Трассировка от PC-B до PC-A: </p>
 
 <img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab01/trace_pc-b_to_pc-a.png>
-
