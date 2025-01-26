@@ -1,0 +1,17 @@
+﻿################################################################################
+# Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/.vs/otus-networks-pro
+/.vs/otus-networks-pro/FileContentIndex
+/.vs/otus-networks-pro/FileContentIndex/32d609b8-a88b-453a-a06a-ffb9ac26c8f2.vsidx
+/.vs/otus-networks-pro/FileContentIndex/8e9d14dd-7119-499e-9d19-0844c13d2de0.vsidx
+/.vs/otus-networks-pro/FileContentIndex/9c7fff01-37bd-47e6-a781-a578ffe1231c.vsidx
+/.vs/otus-networks-pro/FileContentIndex/e104f025-810f-4263-8f51-66a8cbda8500.vsidx
+/.vs/otus-networks-pro/FileContentIndex/f21c45c0-30f1-46af-b224-3192bda3ba89.vsidx
+/.vs/otus-networks-pro/v17
+/.vs/otus-networks-pro/v17/.wsuo
+/.vs/otus-networks-pro/v17/DocumentLayout.json
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json
