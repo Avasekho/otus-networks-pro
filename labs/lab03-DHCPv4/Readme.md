@@ -129,6 +129,6 @@
 
 <p> На DHCP-сервере есть записи обоих выданных адресов для ПК </p>
 
-<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab03-DHCPv4/R1_dhcp_3.png>
+<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab03-DHCPv4/R1_dhcp_5.png>
 
-<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab03-DHCPv4/R1_dhcp_3.png>
+<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab03-DHCPv4/R1_dhcp_6.png>
