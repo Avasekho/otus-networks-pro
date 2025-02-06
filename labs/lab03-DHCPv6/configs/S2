@@ -1,0 +1,99 @@
+!
+! Last configuration change at 18:15:15 UTC Thu Feb 6 2025
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname S2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$XnH/$GoaBltF19s8h8FUrak42j/
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no shutdown
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ no shutdown
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ no shutdown
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ no shutdown
+ media-type rj45
+ negotiation auto
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^CCCCCC Unauthorized access is strictly prohibited. ^C
+banner incoming ^CCCCCC Unauthorized access is strictly prohibited. ^C
+banner login ^CCCCCC Unauthorized access is strictly prohibited. ^C
+banner motd ^CCCCCC Unauthorized access is strictly prohibited. ^C
+!
+line con 0
+ password 7 045802150C2E
+line aux 0
+line vty 0 4
+ password 7 02050D480809
+ login
+line vty 5 15
+ password 7 02050D480809
+ login
+!
