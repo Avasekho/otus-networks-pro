@@ -30,13 +30,13 @@
 
 <h2> Решение: </h2>
 
-<p> Часть 1. оздание сети и настройка основных параметров устройства: </p>
+<p> Часть 1. Cоздание сети и настройка основных параметров устройства: </p>
 
 <p> Настраиваем базовую конфигурацию маршрутизаторов в соответствии с заданием. Настраиваем адреса на R1 и R2; настраиваем шлюз по умолчанию для R1 и R2: </p>
 
-<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab03-DHCPv6/R1_interfaces.png>
+<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab03-DHCPv6/R1_ipv6_interfaces.png>
 
-<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab03-DHCPv6/R2_interfaces.png>
+<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab03-DHCPv6/R2_ipv6_interfaces.png>
 
 <p> Проверяем доступность с R1 интерфейса G0/1 на R2: </p>
 
