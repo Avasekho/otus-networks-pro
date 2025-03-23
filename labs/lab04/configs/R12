@@ -1,0 +1,184 @@
+
+!
+! Last configuration change at 16:23:46 UTC Sun Mar 23 2025
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R12
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+bridge irb
+!
+!
+!
+!
+interface Loopback1
+ no shutdown
+ ip address 10.77.199.12 255.255.255.255
+!
+interface Ethernet0/0
+ no shutdown
+ no ip address
+!
+interface Ethernet0/0.99
+ no shutdown
+ description Management
+ encapsulation dot1Q 99
+ bridge-group 99
+!
+interface Ethernet0/0.101
+ no shutdown
+ description VPC1
+ encapsulation dot1Q 101
+ bridge-group 101
+!
+interface Ethernet0/0.107
+ no shutdown
+ description VPC7
+ encapsulation dot1Q 107
+ bridge-group 107
+!
+interface Ethernet0/1
+ no shutdown
+ no ip address
+!
+interface Ethernet0/1.99
+ no shutdown
+ encapsulation dot1Q 99
+ bridge-group 99
+!
+interface Ethernet0/1.101
+ no shutdown
+ encapsulation dot1Q 101
+ bridge-group 101
+!
+interface Ethernet0/1.107
+ no shutdown
+ encapsulation dot1Q 107
+ bridge-group 107
+!
+interface Ethernet0/2
+ no shutdown
+ ip address 10.77.26.1 255.255.255.252
+!
+interface Ethernet0/3
+ no shutdown
+ ip address 10.77.25.1 255.255.255.252
+!
+interface Ethernet1/0
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no shutdown
+ no ip address
+ shutdown
+!
+interface BVI99
+ no shutdown
+ ip address 10.77.99.12 255.255.255.0
+ vrrp 99 ip 10.77.99.1
+!
+interface BVI101
+ no shutdown
+ ip address 10.77.101.12 255.255.255.0
+ vrrp 101 ip 10.77.101.1
+!
+interface BVI107
+ no shutdown
+ ip address 10.77.107.12 255.255.255.0
+ vrrp 107 ip 10.77.107.1
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+bridge 99 route ip
+bridge 101 route ip
+bridge 107 route ip
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
