@@ -1,0 +1,177 @@
+
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R28
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+track 1 ip sla 1 reachability
+!
+track 2 ip sla 2 reachability
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ no shutdown
+ ip address 10.14.199.28 255.255.255.255
+!
+interface Ethernet0/0
+ no shutdown
+ ip address 24.16.137.254 255.255.255.252
+!
+interface Ethernet0/1
+ no shutdown
+ ip address 193.116.238.158 255.255.255.252
+!
+interface Ethernet0/2
+ no shutdown
+ no ip address
+!
+interface Ethernet0/2.99
+ no shutdown
+ encapsulation dot1Q 99
+ ip address 10.14.99.1 255.255.255.0
+!
+interface Ethernet0/2.130
+ no shutdown
+ encapsulation dot1Q 130
+ ip address 10.14.130.1 255.255.255.0
+!
+interface Ethernet0/2.131
+ no shutdown
+ encapsulation dot1Q 131
+ ip address 10.14.131.1 255.255.255.0
+!
+interface Ethernet0/3
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/0
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no shutdown
+ no ip address
+ shutdown
+!
+ip local policy route-map PBR_SLA
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ip access-list extended acl1
+ permit ip any 10.89.0.0 0.0.255.255
+ip access-list extended acl2
+ permit ip any 10.77.0.0 0.0.255.255
+ permit ip any 10.78.0.0 0.0.255.255
+!
+ip sla 1
+ icmp-echo 24.16.137.253 source-interface Ethernet0/0
+ threshold 1000
+ timeout 1500
+ frequency 10
+ip sla schedule 1 life forever start-time now
+ip sla 2
+ icmp-echo 193.116.238.157 source-interface Ethernet0/1
+ threshold 1000
+ timeout 1500
+ frequency 10
+ip sla schedule 2 life forever start-time now
+!
+route-map PBR_SLA permit 10
+ match ip address acl1
+ set ip next-hop verify-availability 193.116.238.157 1 track 1
+!
+route-map PBR_SLA permit 20
+ match ip address acl2
+ set ip next-hop verify-availability 24.16.137.253 2 track 2
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
