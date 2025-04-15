@@ -58,9 +58,9 @@
 
 <p>Отображаемые маршруты ospf: </p>
 
-<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab06/r14_ospf_routes>
+<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab06/r14_ospf_routes.png>
 
-<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab06/r15_ospf_routes>
+<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab06/r15_ospf_routes.png>
 
 <h3> Маршрутизаторы R12-R13 находятся в зоне 10. Дополнительно к маршрутам должны получать маршрут по умолчанию. </h3>
 
