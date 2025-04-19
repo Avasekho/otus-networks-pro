@@ -1,7 +1,7 @@
 ﻿<h1> Лабораторная работа 8. Настройка EIGRP </h1> 
 
 <h2> Топология </h2>
-<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab05/topology-lab08.png>
+<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab08/topology-lab08.png>
 
 <h2> Задачи </h2>
 
