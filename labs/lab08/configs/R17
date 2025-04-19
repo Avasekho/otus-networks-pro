@@ -1,0 +1,182 @@
+
+!
+! Last configuration change at 11:04:38 UTC Sat Apr 19 2025
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R17
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+bridge irb
+!
+!
+!
+!
+interface Loopback1
+ no shutdown
+ ip address 10.78.199.17 255.255.255.255
+!
+interface Ethernet0/0
+ no shutdown
+ no ip address
+!
+interface Ethernet0/0.99
+ no shutdown
+ encapsulation dot1Q 99
+ bridge-group 99
+!
+interface Ethernet0/0.106
+ no shutdown
+ encapsulation dot1Q 106
+ bridge-group 106
+!
+interface Ethernet0/0.108
+ no shutdown
+ encapsulation dot1Q 108
+ bridge-group 108
+!
+interface Ethernet0/1
+ no shutdown
+ ip address 10.78.35.1 255.255.255.252
+!
+interface Ethernet0/2
+ no shutdown
+ no ip address
+!
+interface Ethernet0/2.99
+ no shutdown
+ encapsulation dot1Q 99
+ bridge-group 99
+!
+interface Ethernet0/2.106
+ no shutdown
+ encapsulation dot1Q 106
+ bridge-group 106
+!
+interface Ethernet0/2.108
+ no shutdown
+ encapsulation dot1Q 108
+ bridge-group 108
+!
+interface Ethernet0/3
+ no shutdown
+ no ip address
+ shutdown
+!
+interface BVI99
+ no shutdown
+ ip address 10.78.99.17 255.255.255.0
+ vrrp 99 ip 10.78.99.1
+!
+interface BVI106
+ no shutdown
+ ip address 10.78.106.17 255.255.255.0
+ vrrp 106 ip 10.78.106.1
+!
+interface BVI108
+ no shutdown
+ ip address 10.78.108.17 255.255.255.0
+ vrrp 108 ip 10.78.108.1
+!
+!
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 78
+  !
+  af-interface Ethernet0/1
+   summary-address 10.78.0.0 255.255.0.0
+  exit-af-interface
+  !
+  topology base
+  exit-af-topology
+  network 10.78.35.0 0.0.0.3
+  network 10.78.99.0 0.0.0.255
+  network 10.78.106.0 0.0.0.255
+  network 10.78.108.0 0.0.0.255
+  network 10.78.199.17 0.0.0.0
+  eigrp router-id 10.78.199.17
+ exit-address-family
+!
+ip default-gateway 10.78.35.2
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+bridge 99 route ip
+bridge 106 route ip
+bridge 108 route ip
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
