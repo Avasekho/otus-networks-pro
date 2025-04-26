@@ -1,0 +1,195 @@
+
+!
+! Last configuration change at 21:08:11 UTC Wed Apr 23 2025
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R16
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+bridge irb
+!
+!
+!
+!
+interface Loopback1
+ no shutdown
+ ip address 10.78.199.16 255.255.255.255
+!
+interface Ethernet0/0
+ no shutdown
+ no ip address
+!
+interface Ethernet0/0.99
+ no shutdown
+ encapsulation dot1Q 99
+ bridge-group 99
+!
+interface Ethernet0/0.106
+ no shutdown
+ encapsulation dot1Q 106
+ bridge-group 106
+!
+interface Ethernet0/0.108
+ no shutdown
+ encapsulation dot1Q 108
+ bridge-group 108
+!
+interface Ethernet0/1
+ no shutdown
+ ip address 10.78.34.1 255.255.255.252
+!
+interface Ethernet0/2
+ no shutdown
+ no ip address
+!
+interface Ethernet0/2.99
+ no shutdown
+ encapsulation dot1Q 99
+ bridge-group 99
+!
+interface Ethernet0/2.106
+ no shutdown
+ encapsulation dot1Q 106
+ bridge-group 106
+!
+interface Ethernet0/2.108
+ no shutdown
+ encapsulation dot1Q 108
+ bridge-group 108
+!
+interface Ethernet0/3
+ no shutdown
+ ip address 10.78.48.1 255.255.255.252
+!
+interface BVI99
+ no shutdown
+ ip address 10.78.99.16 255.255.255.0
+ vrrp 99 ip 10.78.99.1
+!
+interface BVI106
+ no shutdown
+ ip address 10.78.106.16 255.255.255.0
+ vrrp 106 ip 10.78.106.1
+!
+interface BVI108
+ no shutdown
+ ip address 10.78.108.16 255.255.255.0
+ vrrp 108 ip 10.78.108.1
+!
+!
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 78
+  !
+  af-interface Ethernet0/1
+   summary-address 10.78.0.0 255.255.0.0
+  exit-af-interface
+  !
+  af-interface Ethernet0/3
+   summary-address 0.0.0.0 0.0.0.0
+  exit-af-interface
+  !
+  topology base
+   distribute-list prefix R32 out Ethernet0/3
+  exit-af-topology
+  network 0.0.0.0
+  network 10.78.34.0 0.0.0.3
+  network 10.78.48.0 0.0.0.3
+  network 10.78.99.0 0.0.0.255
+  network 10.78.106.0 0.0.0.255
+  network 10.78.108.0 0.0.0.255
+  network 10.78.199.16 0.0.0.0
+  eigrp router-id 10.78.199.16
+ exit-address-family
+!
+router bgp 2042
+ bgp log-neighbor-changes
+ neighbor 10.78.34.2 remote-as 2042
+ neighbor 10.78.48.2 remote-as 2042
+!
+ip default-gateway 10.78.34.2
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip prefix-list R32 seq 10 permit 0.0.0.0/0 le 32
+!
+!
+!
+control-plane
+!
+bridge 99 route ip
+bridge 106 route ip
+bridge 108 route ip
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
