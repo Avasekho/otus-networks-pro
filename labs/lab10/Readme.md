@@ -113,7 +113,7 @@
 
 <p>Маршруты на R14 идут на R15 (10.77.199.15) и Ламас </p>
 
-<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab10/r15_ibgp.png>
+<img src=https://github.com/Avasekho/otus-networks-pro/blob/main/labs/lab10/r14_ip_routes_.png>
 
 
 <h3>Настройть офис С.-Петербург так, чтобы трафик до любого офиса распределялся по двум линкам одновременно. </h3>
