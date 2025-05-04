@@ -1,0 +1,150 @@
+
+!
+! Last configuration change at 13:30:27 UTC Sun May 4 2025
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R21
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ no shutdown
+ ip address 10.10.199.21 255.255.255.255
+!
+interface Ethernet0/0
+ no shutdown
+ ip address 89.186.112.106 255.255.255.252
+!
+interface Ethernet0/1
+ no shutdown
+ ip address 61.100.104.137 255.255.255.252
+!
+interface Ethernet0/2
+ no shutdown
+ ip address 68.146.22.161 255.255.255.252
+!
+interface Ethernet0/3
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/0
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no shutdown
+ no ip address
+ shutdown
+!
+router bgp 301
+ bgp log-neighbor-changes
+ network 10.10.199.21 mask 255.255.255.255
+ redistribute connected
+ neighbor 61.100.104.138 remote-as 101
+ neighbor 68.146.22.162 remote-as 520
+ neighbor 89.186.112.105 remote-as 1001
+ neighbor 89.186.112.105 default-originate
+ neighbor 89.186.112.105 route-map default-r21 out
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip prefix-list ISP21 seq 5 permit 0.0.0.0/0
+ip prefix-list ISP21 seq 10 permit 10.78.0.0/16 le 32
+ip prefix-list ISP21 seq 15 deny 0.0.0.0/0 le 32
+!
+route-map default-r21 permit 10
+ match ip address prefix-list ISP21
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
