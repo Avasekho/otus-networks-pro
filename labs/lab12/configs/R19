@@ -1,0 +1,128 @@
+
+!
+! Last configuration change at 18:13:25 UTC Mon May 5 2025
+! NVRAM config last updated at 19:33:32 UTC Mon May 5 2025
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R19
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ no shutdown
+ ip address 10.77.199.19 255.255.255.255
+!
+interface Ethernet0/0
+ no shutdown
+ ip address 10.77.33.2 255.255.255.252
+ ntp broadcast client
+!
+interface Ethernet0/1
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet0/2
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no shutdown
+ no ip address
+ shutdown
+!
+router ospf 19
+ network 10.77.33.0 0.0.0.3 area 101
+ network 10.77.199.19 0.0.0.0 area 101
+!
+router bgp 1001
+ bgp log-neighbor-changes
+ neighbor 10.77.33.1 remote-as 1001
+!
+ip default-gateway 10.77.33.1
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input telnet
+!
+ntp server 10.77.199.12
+ntp server 10.77.199.13
+!
+end

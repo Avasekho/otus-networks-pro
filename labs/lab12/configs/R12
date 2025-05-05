@@ -1,0 +1,213 @@
+
+!
+! Last configuration change at 20:57:37 msk Mon May 5 2025
+! NVRAM config last updated at 22:32:35 msk Mon May 5 2025
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R12
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone msk 3 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+ip dhcp excluded-address 10.77.101.1 10.77.101.99
+!
+ip dhcp pool VPC1_LAN
+ network 10.77.101.0 255.255.255.0
+ default-router 10.77.101.1 
+ lease 2 12 30
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+bridge irb
+!
+!
+!
+!
+interface Loopback1
+ no shutdown
+ ip address 10.77.199.12 255.255.255.255
+!
+interface Ethernet0/0
+ no shutdown
+ no ip address
+ ip ospf 12 area 10
+ ntp broadcast
+!
+interface Ethernet0/0.99
+ no shutdown
+ description Management
+ encapsulation dot1Q 99
+ bridge-group 99
+!
+interface Ethernet0/0.101
+ no shutdown
+ description VPC1
+ encapsulation dot1Q 101
+ bridge-group 101
+!
+interface Ethernet0/0.107
+ no shutdown
+ description VPC7
+ encapsulation dot1Q 107
+ bridge-group 107
+!
+interface Ethernet0/1
+ no shutdown
+ no ip address
+ ip ospf 12 area 10
+ shutdown
+ ntp broadcast
+!
+interface Ethernet0/1.99
+ no shutdown
+ encapsulation dot1Q 99
+ bridge-group 99
+!
+interface Ethernet0/1.101
+ no shutdown
+ encapsulation dot1Q 101
+ bridge-group 101
+!
+interface Ethernet0/1.107
+ no shutdown
+ encapsulation dot1Q 107
+ bridge-group 107
+!
+interface Ethernet0/2
+ no shutdown
+ ip address 10.77.26.1 255.255.255.252
+ ntp broadcast
+!
+interface Ethernet0/3
+ no shutdown
+ ip address 10.77.25.1 255.255.255.252
+ ntp broadcast
+!
+interface Ethernet1/0
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no shutdown
+ no ip address
+ shutdown
+!
+interface BVI99
+ no shutdown
+ ip address 10.77.99.12 255.255.255.0
+ ntp broadcast
+ vrrp 99 ip 10.77.99.1
+!
+interface BVI101
+ no shutdown
+ ip address 10.77.101.12 255.255.255.0
+ vrrp 101 ip 10.77.101.1
+!
+interface BVI107
+ no shutdown
+ ip address 10.77.107.12 255.255.255.0
+ vrrp 107 ip 10.77.107.1
+!
+router ospf 12
+ network 10.77.25.0 0.0.0.3 area 10
+ network 10.77.26.0 0.0.0.3 area 10
+ network 10.77.199.12 0.0.0.0 area 10
+!
+router bgp 1001
+ bgp log-neighbor-changes
+ neighbor 10.77.25.2 remote-as 1001
+ neighbor 10.77.26.2 remote-as 1001
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+bridge 99 route ip
+bridge 101 route ip
+bridge 107 route ip
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+ntp source Loopback1
+ntp master 4
+ntp update-calendar
+!
+end
