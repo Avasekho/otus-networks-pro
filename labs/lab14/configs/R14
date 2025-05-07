@@ -1,0 +1,242 @@
+
+!
+! Last configuration change at 19:45:15 UTC Wed May 7 2025
+! NVRAM config last updated at 19:57:35 UTC Wed May 7 2025
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R14
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+crypto ikev2 proposal r14-p1 
+ encryption aes-cbc-128
+ integrity md5
+ group 2
+!
+crypto ikev2 policy ikev2-plc 
+ match fvrf any
+ proposal r14-p1
+!
+crypto ikev2 keyring ikev2-key
+ peer DMVPN
+  address 0.0.0.0 0.0.0.0
+  pre-shared-key r14r28r27ipsec
+ !
+!
+!
+crypto ikev2 profile r14-ikev2
+ match fvrf any
+ match address local interface Ethernet0/2
+ match identity remote any
+ authentication remote pre-share
+ authentication local pre-share
+ keyring local ikev2-key
+!
+!
+crypto isakmp policy 5
+ hash sha256
+!
+!
+crypto ipsec transform-set TS esp-aes esp-md5-hmac 
+ mode tunnel
+!
+!
+crypto ipsec profile r14-ipsec
+ set transform-set TS 
+ set ikev2-profile r14-ikev2
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ no shutdown
+ ip address 10.77.199.14 255.255.255.255
+!
+interface Loopback2
+ no shutdown
+ ip address 10.77.200.14 255.255.255.0
+!
+interface Tunnel0
+ no shutdown
+ ip address 10.99.20.1 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp map multicast dynamic
+ ip nhrp network-id 77
+ ip tcp adjust-mss 1360
+ tunnel source Ethernet0/2
+ tunnel mode gre multipoint
+ tunnel protection ipsec profile r14-ipsec
+!
+interface Ethernet0/0
+ no shutdown
+ ip address 10.77.26.2 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ntp broadcast client
+!
+interface Ethernet0/1
+ no shutdown
+ ip address 10.77.27.2 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ntp broadcast client
+!
+interface Ethernet0/2
+ no shutdown
+ ip address 77.58.86.53 255.255.255.252
+ ip nat outside
+ ip virtual-reassembly in
+!
+interface Ethernet0/3
+ no shutdown
+ ip address 10.77.33.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface Ethernet1/0
+ no shutdown
+ ip address 10.77.29.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface Ethernet1/1
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no shutdown
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no shutdown
+ no ip address
+ shutdown
+!
+router ospf 14
+ area 101 filter-list prefix filter-101 in
+ passive-interface Ethernet0/2
+ network 10.77.26.0 0.0.0.3 area 10
+ network 10.77.27.0 0.0.0.3 area 10
+ network 10.77.29.0 0.0.0.3 area 0
+ network 10.77.33.0 0.0.0.3 area 101
+ network 10.77.199.14 0.0.0.0 area 0
+ default-information originate
+!
+router bgp 1001
+ bgp log-neighbor-changes
+ network 10.77.199.14 mask 255.255.255.255
+ network 10.77.200.0 mask 255.255.255.0
+ neighbor 10.77.25.2 remote-as 1001
+ neighbor 10.77.26.1 remote-as 1001
+ neighbor 10.77.27.1 remote-as 1001
+ neighbor 10.77.33.2 remote-as 1001
+ neighbor 10.77.199.15 remote-as 1001
+ neighbor 10.77.199.15 update-source Loopback1
+ neighbor 10.77.199.15 next-hop-self
+ neighbor 77.58.86.54 remote-as 101
+ neighbor 77.58.86.54 filter-list 1 out
+!
+ip default-gateway 77.58.86.53
+ip forward-protocol nd
+!
+ip as-path access-list 1 permit ^$
+ip as-path access-list 1 deny .*
+ip as-path access-list 1 permit ^1001$
+!
+no ip http server
+no ip http secure-server
+ip nat pool R14-SPB 10.77.200.14 10.77.200.14 netmask 255.255.255.0
+ip nat inside source static tcp 10.77.199.19 22 10.77.200.19 22 extendable
+ip nat inside source static 10.77.199.20 10.77.200.20
+ip route 0.0.0.0 0.0.0.0 Ethernet0/2
+!
+ip access-list extended R14-NAT
+ permit ip 10.77.0.0 0.0.255.255 any
+ deny   ip any any
+!
+!
+ip prefix-list filter-101 seq 5 deny 10.77.25.0/30
+ip prefix-list filter-101 seq 10 deny 10.77.26.0/30
+ip prefix-list filter-101 seq 15 deny 10.77.27.0/30
+ip prefix-list filter-101 seq 20 deny 10.77.28.0/30
+ip prefix-list filter-101 seq 25 deny 10.77.29.0/30
+ip prefix-list filter-101 seq 30 deny 10.77.35.0/30
+ip prefix-list filter-101 seq 35 deny 10.77.199.12/32
+ip prefix-list filter-101 seq 40 deny 10.77.199.13/32
+ip prefix-list filter-101 seq 45 deny 10.77.199.14/32
+ip prefix-list filter-101 seq 50 deny 10.77.199.15/32
+ip prefix-list filter-101 seq 55 deny 10.77.199.20/32
+ip prefix-list filter-101 seq 60 permit 0.0.0.0/0 le 32
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+ntp server 10.77.199.12
+ntp server 10.77.199.13
+!
+end
